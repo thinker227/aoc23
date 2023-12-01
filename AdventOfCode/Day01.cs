@@ -1,17 +1,13 @@
 ﻿namespace AdventOfCode;
 
-public sealed class Day01 : BaseDay
+public sealed class Day01 : Day
 {
-    private readonly string input;
-
-    public Day01() => input = File.ReadAllText(InputFilePath);
-
-    public override ValueTask<string> Solve_1() =>
+    public override string Part1() =>
         Solve(xs => xs
             .Where(char.IsAsciiDigit)
             .Select(x => x - '0'));
 
-    public override ValueTask<string> Solve_2() =>
+    public override string Part2() =>
         Solve(x => x
             .WindowLeft(5)
             .SelectNotNullV(int? (xs) => xs switch
@@ -29,13 +25,10 @@ public sealed class Day01 : BaseDay
                     _ => null
             }));
 
-    private ValueTask<string> Solve(Func<string, IEnumerable<int>> f)
-    {
-        var result = input.Split('\n')
+    private string Solve(Func<string, IEnumerable<int>> f) =>
+        Input.Split('\n')
             .Select(x => f(x).ToList())
             .Select(xs => xs[0] * 10 + xs[^1])
-            .Sum();
-
-        return new(result.ToString());
-    }
+            .Sum()
+            .ToString();
 }
