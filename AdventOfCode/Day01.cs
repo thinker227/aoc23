@@ -7,14 +7,14 @@ public sealed class Day01 : BaseDay
     public Day01() => input = File.ReadAllText(InputFilePath);
 
     public override ValueTask<string> Solve_1() =>
-        Solve(x => x
+        Solve(xs => xs
             .Where(char.IsAsciiDigit)
-            .Select(c => c - '0'));
+            .Select(x => x - '0'));
 
     public override ValueTask<string> Solve_2() =>
         Solve(x => x
             .WindowLeft(5)
-            .SelectNotNullV(int? (x) => x switch
+            .SelectNotNullV(int? (xs) => xs switch
             {
                 [>= '0' and <= '9' and var c, ..] => c - '0',
                 ['o', 'n', 'e', ..] => 1,
@@ -32,8 +32,8 @@ public sealed class Day01 : BaseDay
     private ValueTask<string> Solve(Func<string, IEnumerable<int>> f)
     {
         var result = input.Split('\n')
-            .Select(f)
-            .Select(xs => xs.First() * 10 + xs.Last())
+            .Select(x => f(x).ToList())
+            .Select(xs => xs[0] * 10 + xs[^1])
             .Sum();
 
         return new(result.ToString());
