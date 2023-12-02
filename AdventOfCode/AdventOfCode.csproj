@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="AoCHelper" Version="3.0.0" />
+    <PackageReference Include="Pidgin" Version="3.2.2" />
     <PackageReference Include="SuperLinq" Version="5.4.0" />
   </ItemGroup>
 
