@@ -11,9 +11,9 @@ public abstract class Day : BaseDay
 
     public virtual string Part2() => throw new NotImplementedException();
 
-    public override ValueTask<string> Solve_1() =>
+    public sealed override ValueTask<string> Solve_1() =>
         new(Part1());
 
-    public override ValueTask<string> Solve_2() =>
+    public sealed override ValueTask<string> Solve_2() =>
         new(Part2());
 }
