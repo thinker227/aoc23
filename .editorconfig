@@ -26,6 +26,10 @@ insert_final_newline = false
 [*.json]
 indent_size = 4
 
+# Bash files
+[*.sh]
+indent_size = 2
+
 
 
 # ------ C# STYLE RULES -------
