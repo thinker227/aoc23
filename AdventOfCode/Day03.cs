@@ -7,7 +7,6 @@ public sealed class Day3 : Day
     public override string Part1()
     {
         var lineLength = Input.IndexOf('\n');
-        var yOffset = lineLength + 3;
         var text = Input.Replace("\n", "...");
 
         var clusters = GetClusters(text);
@@ -24,7 +23,6 @@ public sealed class Day3 : Day
     public override string Part2()
     {
         var lineLength = Input.IndexOf('\n');
-        var yOffset = lineLength + 3;
         var text = Input.Replace("\n", "...");
 
         var clusters = GetClusters(text);
