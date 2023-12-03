@@ -11,17 +11,11 @@ public sealed class Day3 : Day
         var text = Input.Replace("\n", "...");
 
         var clusters = GetClusters(text);
-        var adjacent = new HashSet<Cluster>();
 
-        for (var i = 0 ; i < text.Length; i++)
-        {
-            if (text[i] is '.' or >= '0' and <= '9') continue;
-
-            var cs = GetAdjacentClusters(clusters, lineLength, i);
-            foreach (var c in cs) adjacent.Add(c);
-        }
-
-        return adjacent
+        return text
+            .Index()
+            .Where(x => x.item is not ('.' or >= '0' and <= '9'))
+            .SelectMany(x => GetAdjacentClusters(clusters, lineLength, x.index))
             .Select(x => x.Num)
             .Sum()
             .ToString();
@@ -35,15 +29,12 @@ public sealed class Day3 : Day
 
         var clusters = GetClusters(text);
 
-        var result =
-            from x in text.Index()
-            where x.item == '*'
-            let location = x.index
-            let adjacent = GetAdjacentClusters(clusters, lineLength, location)
-            where adjacent.Count == 2
-            select adjacent.Aggregate(1, (x, c) => x * c.Num);
-
-        return result
+        return text
+            .Index()
+            .Where(x => x.item == '*')
+            .Select(x => GetAdjacentClusters(clusters, lineLength, x.index))
+            .Where(x => x.Count == 2)
+            .Select(x => x.Aggregate(1, (acc, cluster) => acc * cluster.Num))
             .Sum()
             .ToString();
     }
