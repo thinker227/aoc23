@@ -27,7 +27,7 @@ public sealed class Day02 : Day
     {
         var games = Parse(Input);
         
-        var possible =
+        var powers =
             from x in FlattenCubes(games)
             let cubes = x.cubes
             let r = Max(cubes[0], 12)
@@ -35,7 +35,7 @@ public sealed class Day02 : Day
             let b = Max(cubes[2], 14)
             select r * g * b;
 
-        return possible.Sum().ToString();
+        return powers.Sum().ToString();
     }
 
     private static int Max(IEnumerable<Cubes> sets, int max) =>
