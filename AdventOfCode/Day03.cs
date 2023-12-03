@@ -64,36 +64,19 @@ public sealed class Day3 : Day
         return cs;
     }
 
-    private static Dictionary<int, Cluster> GetClusters(string text)
-    {
-        var n = null as int?;
-        var l = 0;
-
-        var clusters = new Dictionary<int, Cluster>();
-
-        for (var i = 0; i < text.Length; i++)
-        {
-            var c = text[i];
-
-            if (char.IsAsciiDigit(c))
-            {
-                n ??= 0;
-                n *= 10;
-                n += c - '0';
-                l++;
-            }
-            else if (n is {} b)
-            {
-                for (var lx = 0; lx < l; lx++)
-                    clusters[i - 1 - lx] = new(i - l, b);
-
-                n = null;
-                l = 0;
-            }
-        }
-
-        return clusters;
-    }
+    private static Dictionary<int, Cluster> GetClusters(string text) =>
+        text.Index()
+            .Segment((x, p, _) =>
+                char.IsAsciiDigit(x.item) ^ char.IsAsciiDigit(p.item))
+            .Where(x => char.IsAsciiDigit(x.First().item))
+            .Select(x => (
+                start: x.First().index,
+                indicies: x.Select(x => x.index).ToList(),
+                num: x.Aggregate(0, (acc, x) =>
+                    acc * 10 + (x.item - '0'))))
+            .SelectMany(x => x.indicies
+                .Select(i => (i, new Cluster(x.start, x.num))))
+            .ToDictionary();
 
     private readonly record struct Cluster(int Start, int Num);
 }
