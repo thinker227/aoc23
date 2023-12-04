@@ -14,16 +14,17 @@ public sealed class Day4 : Day
             .ToList();
 
         var copies = Enumerable.Repeat(1, matches.Count).ToList();
-        var total = 0;
-        foreach (var cardMatches in matches)
-        {
-            var cardCopies = copies[0];
-            total += cardCopies;
-            copies.RemoveAt(0);
-            for (var i = 0; i < cardMatches; i++) copies[i] += cardCopies;
-        }
 
-        return total.ToString();
+        return matches
+            .Select(cardMatches =>
+            {
+                var cardCopies = copies[0];
+                copies.RemoveAt(0);
+                for (var i = 0; i < cardMatches; i++) copies[i] += cardCopies;
+                return cardCopies;
+            })
+            .Sum()
+            .ToString();
     }
 
     private static IEnumerable<int> Matches(string input) =>
