@@ -3,16 +3,38 @@ namespace AdventOfCode;
 public sealed class Day4 : Day
 {
     public override string Part1() =>
-        Input
+        Matches(Input)
+            .Select(x => (1 << x) / 2)
+            .Sum()
+            .ToString();
+
+    public override string Part2()
+    {
+        var matches = Matches(Input)
+            .ToList();
+
+        var copies = Enumerable.Repeat(1, matches.Count).ToList();
+        var total = 0;
+        foreach (var cardMatches in matches)
+        {
+            var cardCopies = copies[0];
+            total += cardCopies;
+            copies.RemoveAt(0);
+            for (var i = 0; i < cardMatches; i++) copies[i] += cardCopies;
+        }
+
+        return total.ToString();
+    }
+
+    private static IEnumerable<int> Matches(string input) =>
+        input
             .Split('\n')
-            .Select(x => x
+            .Select(s => s
                 .Split(':')[1]
                 .Split('|')
                 .Select(x => x
                     .Split(' ', StringSplitOptions.RemoveEmptyEntries)
                     .Select(int.Parse))
                 .Aggregate((a, b) => a.Intersect(b)))
-            .Select(x => (1 << x.Count()) / 2)
-            .Sum()
-            .ToString();
+            .Select(x => x.Count());
 }
