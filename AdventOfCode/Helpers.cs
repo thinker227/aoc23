@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace AdventOfCode;
 
 public static class Helpers
@@ -24,5 +26,13 @@ public static class Helpers
         {
             if (f(x) is {} t) yield return t;
         }
+    }
+
+    /// <summary>
+    /// Creates a range of values of any numeric type.
+    /// </summary>
+    public static IEnumerable<T> Range<T>(T start, T count) where T : INumber<T>
+    {
+        for (var i = start; i < count; i += T.One) yield return i;
     }
 }
