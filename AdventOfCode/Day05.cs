@@ -12,17 +12,13 @@ public sealed class Day5 : Day
             .Split(' ')
             .Select(long.Parse);
 
-        var _seeds = lines[0][7..]
-            .Split(' ')
-            .Select(long.Parse)
-            .Select(x => new SeedRange(x, 1));
-
         return GetMapRanges(lines)
             .Aggregate(seeds, ApplyMap)
             .Min()
             .ToString();
     }
 
+    // Doesn't work
     public override string Part2()
     {
         var lines = Input.Split("\n\n");
