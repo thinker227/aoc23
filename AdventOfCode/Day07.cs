@@ -6,11 +6,11 @@ public sealed class Day7 : Day
         Input
             .Split('\n')
             .Select(x => x.Split(' '))
-            .Select(xs => new Entry(xs[0], int.Parse(xs[1])))
-            .OrderBy(x => HandType(x.Hand))
-            .ThenBy(x => HandOrder(x.Hand))
+            .Select(xs => (hand: xs[0], bet: int.Parse(xs[1])))
+            .OrderBy(x => HandType(x.hand))
+            .ThenBy(x => HandOrder(x.hand))
             .Index()
-            .Select(x => x.item.Bet * (x.index + 1))
+            .Select(x => x.item.bet * (x.index + 1))
             .Sum()
             .ToString();
 
@@ -42,6 +42,4 @@ public sealed class Day7 : Day
         'T' => 8,
         _ => c - '2',
     };
-
-    private readonly record struct Entry(string Hand, int Bet);
 }
