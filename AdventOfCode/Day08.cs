@@ -13,14 +13,14 @@ public sealed class Day8 : Day
 
         var x = lines[0]
             .Repeat()
-            .SelectState(
-                nodes["AAA"],
-                (path, current) => path == 'L'
-                    ? (nodes[current.l], current.l)
-                    : (nodes[current.r], current.r))
+            .Scan(
+                (node: "AAA", paths: nodes["AAA"]),
+                (current, path) => path == 'L'
+                    ? (current.paths.l, nodes[current.paths.l])
+                    : (current.paths.r, nodes[current.paths.r]))
             .Index()
-            .First(x => x.item == "ZZZ")
-            .index + 1;
+            .First(x => x.item.node == "ZZZ")
+            .index;
 
         return x.ToString();
     }
