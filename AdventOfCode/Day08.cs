@@ -15,9 +15,9 @@ public sealed class Day8 : Day
             .Repeat()
             .SelectState(
                 nodes["AAA"],
-                (path, v) => path == 'L'
-                    ? (nodes[v.l], v.l)
-                    : (nodes[v.r], v.r))
+                (path, current) => path == 'L'
+                    ? (nodes[current.l], current.l)
+                    : (nodes[current.r], current.r))
             .Index()
             .First(x => x.item == "ZZZ")
             .index + 1;
