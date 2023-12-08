@@ -11,18 +11,17 @@ public sealed class Day8 : Day
                 x => x[0..3],
                 x => (l: x[7..10], r: x[12..15]));
 
-        var current = nodes["AAA"];
-        foreach (var (index, path) in lines[0].Repeat().Index())
-        {
-            var x = path == 'L'
-                ? current.l
-                : current.r;
+        var x = lines[0]
+            .Repeat()
+            .SelectState(
+                nodes["AAA"],
+                (path, v) => path == 'L'
+                    ? (nodes[v.l], v.l)
+                    : (nodes[v.r], v.r))
+            .Index()
+            .First(x => x.item == "ZZZ")
+            .index + 1;
 
-            if (x == "ZZZ") return (index + 1).ToString();
-            
-            current = nodes[x];
-        }
-
-        throw new UnreachableException();
+        return x.ToString();
     }
 }

@@ -35,4 +35,19 @@ public static class Helpers
     {
         for (var i = start; i < count; i += T.One) yield return i;
     }
+
+    /// <summary>
+    /// Maps a sequence by passing a state to each element.
+    /// </summary>
+    public static IEnumerable<TResult> SelectState<T, TState, TResult>(
+        this IEnumerable<T> xs,
+        TState state,
+        Func<T, TState, (TState, TResult)> f)
+    {
+        foreach (var x in xs)
+        {
+            (state, var r) = f(x, state);
+            yield return r;
+        }
+    }
 }
