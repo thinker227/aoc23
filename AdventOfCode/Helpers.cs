@@ -35,4 +35,16 @@ public static class Helpers
     {
         for (var i = start; i < count; i += T.One) yield return i;
     }
+
+    /// <summary>
+    /// Generates a sequence by continually applying a function over the previous value.
+    /// </summary>
+    public static IEnumerable<T> Generate<T>(T x, Func<T, T> f)
+    {
+        while (true)
+        {
+            yield return x;
+            x = f(x);
+        }
+    }
 }
