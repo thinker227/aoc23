@@ -47,4 +47,19 @@ public static class Helpers
             x = f(x);
         }
     }
+
+    /// <summary>
+    /// Gets all pairs of items in a sequence.
+    /// </summary>
+    public static IEnumerable<(T, T)> Pairs<T>(this IEnumerable<T> xs)
+    {
+        var list = new List<T>();
+
+        foreach (var x in xs)
+        {
+            foreach (var y in list) yield return (x, y);
+
+            list.Add(x);
+        }
+    }
 }
