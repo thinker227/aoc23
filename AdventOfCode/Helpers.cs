@@ -62,4 +62,27 @@ public static class Helpers
             list.Add(x);
         }
     }
+
+    /// <summary>
+    /// Enumerates a sequences of enumerables and zips together the nth element of each enumerable.
+    /// </summary>
+    public static IEnumerable<IReadOnlyList<T>> ZipMany<T>(this IEnumerable<IEnumerable<T>> xs)
+    {
+        var es = xs
+            .Select(x => x.GetEnumerator())
+            .ToArray();
+
+        while (true)
+        {
+            var list = new List<T>();
+
+            foreach (var e in es)
+            {
+                if (!e.MoveNext()) yield break;
+                list.Add(e.Current);
+            }
+
+            yield return list;
+        }
+    }
 }
