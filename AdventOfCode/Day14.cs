@@ -14,7 +14,7 @@ public sealed class Day14 : Day
                 .Split(x => x.item == '#')
                 .Where(g => g.Any())
                 .Select(g => (
-                    start: Input.IndexOf('\n') - g.First().index,
+                    start: size - g.First().index,
                     count: g.Count(x => x.item == 'O')))
                 .Select(g => Enumerable
                     .Range(g.start - g.count + 1, g.count)
