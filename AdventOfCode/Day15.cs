@@ -50,5 +50,5 @@ public sealed class Day15 : Day
 
     private static int Hash(IEnumerable<char> xs) =>
         xs.Aggregate(0, (acc, x) =>
-            (acc + (byte)x) * 17 % 256);
+            (acc + x) * 17 % 256);
 }
