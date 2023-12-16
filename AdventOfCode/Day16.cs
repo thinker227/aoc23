@@ -2,11 +2,38 @@ namespace AdventOfCode;
 
 public sealed class Day16 : Day
 {
-    public override string Part1()
+    public override string Part1() =>
+        Energized(Input, new(0, Direction.Right)).ToString();
+
+    public override string Part2()
     {
-        var yOffset = Input.IndexOf('\n') + 1;
+        var width = Input.IndexOf('\n');
+        var yOffset = width + 1;
+
+        var starts = Enumerable
+            .Range(0, width)
+            .Select(x => new Location(x, Direction.Down))
+            .Concat(Enumerable
+                .Range(yOffset * (width - 1), width)
+                .Select(x => new Location(x, Direction.Up)))
+            .Concat(SuperEnumerable
+                .Range(0, width, yOffset)
+                .Select(x => new Location(x, Direction.Right)))
+            .Concat(SuperEnumerable
+                .Range(width - 1, width, yOffset)
+                .Select(x => new Location(x, Direction.Left)));
+
+        return starts
+            .Select(l => Energized(Input, l))
+            .Max()
+            .ToString();
+    }
+
+    private static int Energized(string map, Location start)
+    {
+        var yOffset = map.IndexOf('\n') + 1;
         var visited = new HashSet<Location>();
-        var beams = new Stack<Location>([new(0, Direction.Right)]);
+        var beams = new Stack<Location>([start]);
 
         int FromDir(Direction dir) => dir switch
         {
@@ -22,10 +49,10 @@ public sealed class Day16 : Day
             while (
                 !visited.Contains(current) &&
                 current.Position >= 0 &&
-                current.Position < Input.Length)
+                current.Position < map.Length)
             {
                 var (pos, dir) = current;
-                var x = Input[pos];
+                var x = map[pos];
                 if (x == '\n') break;
 
                 visited.Add(current);
@@ -56,8 +83,7 @@ public sealed class Day16 : Day
 
         return visited
             .DistinctBy(x => x.Position)
-            .Count()
-            .ToString();
+            .Count();
     }
 
     private readonly record struct Location(int Position, Direction Direction);
